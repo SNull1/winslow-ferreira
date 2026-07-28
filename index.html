@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winslow Ferreira | Cabinet d'Avocats d'Excellence</title>
+    
+    <!-- Importation des polices Google (Typographie de luxe) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES ET RÉINITIALISATION --- */
+        :root {
+            --or-luxe: #C5A880;
+            --texte-clair: #F5F5F5;
+            --fond-sombre: #050505;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Montserrat', sans-serif;
+            background-color: transparent; /* <-- La correction est ici */
+            color: var(--texte-clair);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* --- VIDÉO ET OVERLAY --- */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Calque d'assombrissement pour rendre le texte lisible */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(5,5,5,0.8) 0%, rgba(5,5,5,0.4) 100%);
+            z-index: -1;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--texte-clair);
+        }
+
+        .logo span {
+            color: var(--or-luxe);
+        }
+
+        /* --- TYPOGRAPHIE --- */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 30px;
+            color: var(--or-luxe);
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        /* --- SECTIONS ET LAYOUT --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero p.subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--or-luxe);
+            margin-bottom: 10px;
+        }
+
+        .section-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 5%;
+        }
+
+        /* Effet Glassmorphism (Verre dépoli) */
+        .glass-card {
+            background: rgba(15, 15, 15, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 80px 60px;
+            max-width: 900px;
+            text-align: center;
+            border-radius: 2px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        /* --- ANIMATIONS AU DÉFILEMENT --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Indicateur de scroll */
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.7;
+            animation: pulse 2s infinite;
+        }
+
+        .scroll-down span {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .scroll-down .line {
+            width: 1px;
+            height: 40px;
+            background-color: var(--or-luxe);
+        }
+
+        /* --- IMAGE DE LOCALISATION --- */
+        .map-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 4px;
+            margin: 25px auto;
+            display: block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+
+        .map-image:hover {
+            transform: translateY(-5px);
+            border-color: var(--or-luxe);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 1; transform: translateX(-50%) translateY(10px); }
+            100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* --- BOUTON --- */
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            border: 1px solid var(--or-luxe);
+            color: var(--or-luxe);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .btn:hover {
+            background: var(--or-luxe);
+            color: var(--fond-sombre);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- VIDÉO D'ARRIÈRE-PLAN (Boucle automatique, pas d'arrêt) -->
+    <video id="bg-video" src="video.mp4" autoplay loop muted playsinline preload="auto"></video>
+    <div class="video-overlay"></div>
+
+    <!-- EN-TÊTE / NAVIGATION -->
+    <nav>
+        <div class="logo">Winslow <span>Ferreira</span></div>
+    </nav>
+
+    <!-- SECTION HÉROS (Accueil) -->
+    <header class="hero reveal">
+        <p class="subtitle">Cabinet d'Avocats</p>
+        <h1>L'art de<br>la défense.</h1>
+        
+        <div class="scroll-down">
+            <span>Découvrir</span>
+            <div class="line"></div>
+        </div>
+    </header>
+
+    <!-- SECTION 1 : EXPERTISE -->
+    <section class="section-container">
+        <div class="glass-card reveal">
+            <h2>C'est quoi un Avocat ?</h2>
+            <p>Un avocat est un professionnel du droit dont le rôle principal est de conseiller, représenter et défendre ses clients.</p>
+            <p>Il guide ses clients sur les lois, aide à rédiger des contrats et prévient les conflits.</p>
+            <p>Il agit au nom de son client lors de démarches officielles ou de négociations.</p>
+            <p>Il plaide devant les tribunaux pour protéger les droits d'une personne ou d'une entreprise.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 2 : PHILOSOPHIE -->
+    <section class="section-container">
+        <div class="glass-card reveal">
+            <h2>Dans quel situation un avocat est nécessaire</h2>
+            <p>Vous ête accusé pour une infraction/crime commis et vous devez vous défendre.</p>
+            <p>Vous souhaitez attaqué quelqu'un en justice pour une raison quelconque.</p>
+            <p>Vous ête demander a signer un contrat et voulez savoir si il n'est pas abusif.</p>
+            <p>Vous souhaitez rédiger un contrat sans y mettre d'abus.</p>
+            <p>Vous souhaitez rédiger un contrat sans y mettre d'abus.</p>
+            <p>Vous ête mis(e) en état d'arestation.</p>
+        </div>
+    </section>
+
+<!-- SECTION 3 : CONTACT -->
+    <section class="section-container">
+        <div class="glass-card reveal">
+            <h2>Où nous trouver</h2>            
+            <div style="margin-top: 40px; font-family: 'Playfair Display', serif; font-size: 1.2rem;">
+                <p><strong>Little Seoul</strong><br>Los Santos, État-Unis</p>
+                
+                <!-- Ajout de l'image de localisation -->
+                <img src="image.png" alt="Plan d'accès au cabinet Winslow Ferreira" class="map-image">
+
+                <p style="color: var(--or-luxe); font-size: 1.5rem; margin: 20px 0;">M. Winslow ; 555-9999</p>
+                <p style="color: var(--or-luxe); font-size: 1.5rem; margin: 20px 0;">M. Ferreira ; 555-9999</p>
+                <p>site fait par Max Ferreira</p>
+            </div>
+            
+            <a href="https://discord.gg/tXdeWZK7T5" class="btn">Nous Contacter</a>
+        </div>
+    </section>
+
+    <!-- SCRIPT POUR L'ANIMATION D'APPARITION AU DÉFILEMENT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sélectionne tous les éléments avec la classe 'reveal'
+            const reveals = document.querySelectorAll('.reveal');
+
+            // Création de l'Intersection Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Ajoute la classe 'active' pour déclencher le fondu CSS
+                        entry.target.classList.add('active');
+                        // Optionnel : arrêter d'observer une fois apparu
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.15 // Déclenche l'animation quand 15% de l'élément est visible
+            });
+
+            // Applique l'observateur à chaque élément
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+        });
+    </script>
+</body>
+</html>
