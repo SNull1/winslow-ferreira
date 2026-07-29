@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSPD & Droits - Winslow Ferreira | Cabinet d'Avocats</title>
+    
+    <!-- Importation des polices Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES ET RÉINITIALISATION --- */
+        :root {
+            --or-luxe: #C5A880;
+            --texte-clair: #F5F5F5;
+            --fond-sombre: #050505;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Montserrat', sans-serif;
+            background-color: transparent;
+            color: var(--texte-clair);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* --- VIDÉO ET OVERLAY --- */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.6) 100%);
+            z-index: -1;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--texte-clair);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--or-luxe);
+        }
+        
+        /* Liens de navigation en haut à droite */
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(197, 168, 128, 0.5);
+            color: var(--texte-clair);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--or-luxe);
+            color: var(--fond-sombre);
+            border-color: var(--or-luxe);
+        }
+
+        /* --- TYPOGRAPHIE --- */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 7vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 30px;
+            color: var(--or-luxe);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--texte-clair);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(197, 168, 128, 0.3);
+            padding-bottom: 10px;
+        }
+
+        p, li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-weight: 300;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 25px;
+        }
+
+        ul li::before {
+            content: '•';
+            color: var(--or-luxe);
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* --- SECTIONS ET LAYOUT --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero p.subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--or-luxe);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .section-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 5%;
+        }
+
+        .glass-card {
+            background: rgba(15, 15, 15, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 70px 60px;
+            max-width: 1000px;
+            text-align: center;
+            border-radius: 4px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        /* --- ANIMATIONS AU DÉFILEMENT --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Indicateur de scroll */
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.7;
+            animation: pulse 2s infinite;
+        }
+
+        .scroll-down span {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .scroll-down .line {
+            width: 1px;
+            height: 40px;
+            background-color: var(--or-luxe);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 1; transform: translateX(-50%) translateY(10px); }
+            100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* --- BOUTONS --- */
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            border: 1px solid var(--or-luxe);
+            color: var(--or-luxe);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            transition: all 0.4s ease;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--or-luxe);
+            color: var(--fond-sombre);
+        }
+    </style>
+</head>
+<body>
+
+    <video id="bg-video" src="video_lspd.mp4" autoplay loop muted playsinline preload="auto"></video>
+    <div class="video-overlay"></div>
+
+    <!-- EN-TÊTE / NAVIGATION -->
+    <nav>
+        <a href="index.html" class="logo">Winslow <span>Ferreira</span></a>
+        
+        <!-- BOUTONS DE NAVIGATION -->
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn">Accueil</a>
+            <a href="lspd.html" class="nav-btn active">LSPD</a>
+        </div>
+    </nav>
+
+    <!-- SECTION HÉROS -->
+    <header class="hero reveal">
+        <p class="subtitle">Guide Juridique LSPD</p>
+        <h1>Procédures<br>& Conséquences.</h1>
+        <p style="text-align: center; max-width: 600px; margin: 20px auto; font-style: italic;">
+            "La loi protège tout le monde, même ceux qui sont accusés. Une arrestation ne signifie pas la fin de vos droits."
+        </p>
+        
+        <div class="scroll-down">
+            <span>Découvrir</span>
+            <div class="line"></div>
+        </div>
+    </header>
+
+    <!-- SECTION 1 : VICES DE PROCÉDURE ET DE FORME -->
+    <section class="section-container">
+        <div class="glass-card reveal">
+            <h2>Les Vices face au LSPD</h2>
+            <p style="text-align: center; margin-bottom: 40px;">Lors d'une intervention du Los Santos Police Department, les agents sont tenus de respecter un cadre légal strict. Tout manquement peut constituer un vice.</p>
+            
+            <h3>Le Vice de Procédure</h3>
+            <p>Un vice de procédure survient lorsque les <strong>étapes légales</strong> d'une interpellation, d'une fouille ou d'une garde à vue n'ont pas été respectées par les agents du LSPD.</p>
+            <ul>
+                <li><strong>Omission des droits :</strong> Ne pas lire ou lire de manière incorrecte les droits Miranda (droit au silence, droit à un avocat) lors de l'arrestation.</li>
+                <li><strong>Fouille illégale :</strong> Procéder à une palpation ou une fouille de véhicule sans motif probable ni mandat.</li>
+                <li><strong>Refus d'avocat :</strong> Interroger un suspect alors qu'il a explicitement réclamé la présence de son représentant légal.</li>
+            </ul>
+
+            <h3>Le Vice de Forme</h3>
+            <p>Le vice de forme concerne le <strong>document écrit</strong> lui-même. C'est une erreur matérielle dans la rédaction d'un acte officiel (mandat, contravention, rapport d'arrestation).</p>
+            <ul>
+                <li><strong>Erreur d'identité :</strong> Mauvais nom, prénom, ou date de naissance inscrits sur le mandat de perquisition.</li>
+                <li><strong>Absence de signature :</strong> Un document officiel non signé par le juge compétent ou l'officier supérieur mandaté.</li>
+                <li><strong>Lieu erroné :</strong> Une adresse incorrecte spécifiée sur un mandat, rendant l'opération caduque.</li>
+                <li><strong>Erreur de qualification :</strong> Une contravention rédigée avec le mauvais code pénal ou une erreur manifeste sur le montant.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- SECTION 2 : CONSÉQUENCES -->
+    <section class="section-container">
+        <div class="glass-card reveal">
+            <h2>Quelles sont les Conséquences ?</h2>
+            <p style="text-align: center; margin-bottom: 40px;">La présence d'un vice de forme ou de procédure n'est pas une simple formalité. C'est l'arme principale de l'avocat pour faire annuler le travail des forces de l'ordre.</p>
+            
+            <h3>1. L'invalidation des preuves</h3>
+            <p>Si une preuve (arme, stupéfiants, argent sale) est trouvée lors d'une perquisition ou d'une fouille entachée d'un vice de procédure, cette preuve devient <strong>inadmissible devant un tribunal</strong>. Elle ne peut plus être utilisée, même si elle prouve la culpabilité.</p>
+
+            <h3>2. L'annulation de la procédure</h3>
+            <p>Un vice peut entraîner l'annulation pure et simple de l'entièreté du dossier. le juge n'aura d'autre choix que de rejeter les charges.</p>
+
+            <h3>3. La relaxe et la libération</h3>
+            <p>Conséquence directe de l'annulation des charges : le suspect doit être <strong>immédiatement relâché</strong>. Si les droits fondamentaux ont été bafoués, le cabinet Winslow Ferreira peut également engager des poursuites contre le LSPD pour dommages et intérêts ou arrestation abusive.</p>
+            
+            <div style="margin-top: 50px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;">
+                <a href="https://discord.gg/tXdeWZK7T5" class="btn">Contacter un Avocat</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCRIPT POUR L'ANIMATION D'APPARITION AU DÉFILEMENT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.15
+            });
+
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+        });
+    </script>
+</body>
+</html>
