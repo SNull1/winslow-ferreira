@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Winslow Ferreira | Cabinet d'Avocats d'Excellence</title>
     
-    <!-- Importation des polices Google (Typographie de luxe) -->
+    <!-- Importation des polices Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
 
         body, html {
             font-family: 'Montserrat', sans-serif;
-            background-color: transparent; /* <-- La correction est ici */
+            background-color: transparent;
             color: var(--texte-clair);
             scroll-behavior: smooth;
             overflow-x: hidden;
@@ -43,7 +43,6 @@
             z-index: -2;
         }
 
-        /* Calque d'assombrissement pour rendre le texte lisible */
         .video-overlay {
             position: fixed;
             top: 0;
@@ -74,10 +73,35 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--texte-clair);
+            text-decoration: none;
         }
 
         .logo span {
             color: var(--or-luxe);
+        }
+
+        /* Liens de navigation en haut à droite */
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(197, 168, 128, 0.5);
+            color: var(--texte-clair);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--or-luxe);
+            color: var(--fond-sombre);
+            border-color: var(--or-luxe);
         }
 
         /* --- TYPOGRAPHIE --- */
@@ -133,7 +157,6 @@
             padding: 100px 5%;
         }
 
-        /* Effet Glassmorphism (Verre dépoli) */
         .glass-card {
             background: rgba(15, 15, 15, 0.4);
             backdrop-filter: blur(12px);
@@ -236,7 +259,13 @@
 
     <!-- EN-TÊTE / NAVIGATION -->
     <nav>
-        <div class="logo">Winslow <span>Ferreira</span></div>
+        <a href="index.html" class="logo">Winslow <span>Ferreira</span></a>
+        
+        <!-- BOUTONS DE NAVIGATION -->
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn active">Accueil</a>
+            <a href="lspd.html" class="nav-btn">LSPD</a>
+        </div>
     </nav>
 
     <!-- SECTION HÉROS (Accueil) -->
@@ -273,14 +302,13 @@
         </div>
     </section>
 
-<!-- SECTION 3 : CONTACT -->
+    <!-- SECTION 3 : CONTACT -->
     <section class="section-container">
         <div class="glass-card reveal">
             <h2>Où nous trouver</h2>            
             <div style="margin-top: 40px; font-family: 'Playfair Display', serif; font-size: 1.2rem;">
                 <p><strong>Little Seoul</strong><br>Los Santos, État-Unis</p>
                 
-                <!-- Ajout de l'image de localisation -->
                 <img src="image.png" alt="Plan d'accès au cabinet Winslow Ferreira" class="map-image">
 
                 <p style="color: var(--or-luxe); font-size: 1.5rem; margin: 20px 0;">M. Winslow ; ###-####</p>
@@ -292,27 +320,20 @@
         </div>
     </section>
 
-    <!-- SCRIPT POUR L'ANIMATION D'APPARITION AU DÉFILEMENT -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Sélectionne tous les éléments avec la classe 'reveal'
             const reveals = document.querySelectorAll('.reveal');
 
-            // Création de l'Intersection Observer
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Ajoute la classe 'active' pour déclencher le fondu CSS
                         entry.target.classList.add('active');
-                        // Optionnel : arrêter d'observer une fois apparu
-                        // observer.unobserve(entry.target); 
                     }
                 });
             }, {
-                threshold: 0.15 // Déclenche l'animation quand 15% de l'élément est visible
+                threshold: 0.15
             });
 
-            // Applique l'observateur à chaque élément
             reveals.forEach(reveal => {
                 observer.observe(reveal);
             });
